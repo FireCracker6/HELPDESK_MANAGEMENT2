@@ -33,29 +33,19 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
         public TicketDetails(Guid userId)
         {
             InitializeComponent();
+            TicketDetailModel ticketDetailModel = new TicketDetailModel();
             _userService = new UserService();
+            PageTitle2 = "Ticket Details";
             _userId = userId;
-
-            // Create an instance of the TicketDetailModel and set it as the DataContext
-            var ticketDetailModel = new TicketDetailModel();
-            DataContext = ticketDetailModel;
-
-            // Set the SelectedId property of the TicketDetailModel
             ticketDetailModel.SelectedId = userId;
+            ShowUser(userId);
 
-            // Load the ticket details and set them on the TicketDetailModel
-            LoadTicketDetails(userId);
+            
+
+            // Create and configure the DataGrid control
+          
+
         }
-        private async Task LoadTicketDetails(Guid userId)
-        {
-            // Retrieve the ticket details for the user
-            var tickets = await _userService.GetAsync(t => t.Id == userId);
-
-            // Set the ticket details on the TicketDetailModel
-            var ticketDetailModel = (TicketDetailModel)DataContext;
-            ticketDetailModel.Tickets = new ObservableCollection<TicketModel>((IEnumerable<TicketModel>)tickets);
-        }
-
 
         private void ShowDefaultView()
         {
@@ -68,17 +58,30 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
 
         private async Task ShowUser(Guid userId)
         {
+
             var item = await _userService.GetAsync(x => x.Id == userId);
-            Debug.WriteLine(item.FirstName);
+            if (item != null)
+            {
+                Debug.WriteLine(item.FirstName);
+                Debug.WriteLine("userId = " + userId);
+               
+                // Set the ItemsSource property of the DataGrid control
+                var ticketService = new TicketService();
 
-            // set the item as the DataContext of the UserControl
-            this.DataContext = item;
-            ((TicketDetailModel)this.DataContext).SelectedId = userId;
+                var tickets = await ticketService.GetAsync(userId);
+                var item2 = tickets.FirstOrDefault();
+                _myDetailsDataGrid.ItemsSource = tickets;
+                Debug.WriteLine(item2.Title);
+               
+            
+               
+            }
+            else
+            {
+                // Handle the case where the user with the specified ID was not found.
+                // This could mean showing an error message or redirecting the user to a different page.
+            }
 
-            // Set the ItemsSource property of the DataGrid control
-            var ticketService = new UserService();
-            var tickets = await ticketService.GetAsync(t => t.Id == userId);
-            _myDetailsDataGrid.ItemsSource = (IEnumerable)tickets;
         }
 
 

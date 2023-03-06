@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HelpDeskManagement_WPF_MVVM_APP.Contexts;
@@ -41,9 +42,12 @@ internal class TicketService
         return _list;
     }
 
-    public  Task<UsersEntity> GetAsync(Expression<Func<UsersEntity, bool>> predicate)
+    public async Task<IEnumerable<TicketsEntity>> GetAsync(Guid userId)
     {
-        return GetAsync(predicate);
+        return await _context.Tickets.Where(t => t.UsersId == userId).ToListAsync();
+
     }
+
+
 
 }

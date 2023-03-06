@@ -24,10 +24,10 @@
         <TextBlock Grid.Row="1" Text="{Binding PageTitle2}" />
         <DataGrid Grid.Row="2" x:Name="_myDetailsDataGrid" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ticket ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Title" Binding="{Binding FirstName}" />
-                <DataGridTextColumn Header="Description" Binding="{Binding LastName}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Ticket ID" Binding="{Binding UsersId}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                <!--<DataGridTextColumn Header="Status" Binding="{Binding Email}" />-->
             </DataGrid.Columns>
         </DataGrid>
 
