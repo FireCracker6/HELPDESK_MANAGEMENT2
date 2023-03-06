@@ -16,6 +16,7 @@ namespace HelpDeskManagement_WPF_MVVM_APP.Services
 
     internal class TicketsViewService
     {
+        private Guid userId;
         private static readonly TicketService _context;
 
        
@@ -65,6 +66,9 @@ namespace HelpDeskManagement_WPF_MVVM_APP.Services
             
 
         }
+      
+
+
 
 
     }

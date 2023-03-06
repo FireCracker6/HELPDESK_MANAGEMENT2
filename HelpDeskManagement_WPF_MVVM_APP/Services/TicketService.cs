@@ -1,6 +1,8 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HelpDeskManagement_WPF_MVVM_APP.Contexts;
 using HelpDeskManagement_WPF_MVVM_APP.Models;
@@ -39,6 +41,9 @@ internal class TicketService
         return _list;
     }
 
+    public  Task<UsersEntity> GetAsync(Expression<Func<UsersEntity, bool>> predicate)
+    {
+        return GetAsync(predicate);
+    }
 
-   
 }

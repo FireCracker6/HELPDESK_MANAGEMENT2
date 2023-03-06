@@ -32,19 +32,30 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
 
         public TicketDetails(Guid userId)
         {
-            TicketDetailModel ticketDetailModel = new TicketDetailModel();
-            _userService = new UserService();
-
-            _userId = userId;
-            ticketDetailModel.SelectedId = userId;
-            ShowUser(userId);
-
             InitializeComponent();
+            _userService = new UserService();
+            _userId = userId;
 
-            // Create and configure the DataGrid control
-          
+            // Create an instance of the TicketDetailModel and set it as the DataContext
+            var ticketDetailModel = new TicketDetailModel();
+            DataContext = ticketDetailModel;
 
+            // Set the SelectedId property of the TicketDetailModel
+            ticketDetailModel.SelectedId = userId;
+
+            // Load the ticket details and set them on the TicketDetailModel
+            LoadTicketDetails(userId);
         }
+        private async Task LoadTicketDetails(Guid userId)
+        {
+            // Retrieve the ticket details for the user
+            var tickets = await _userService.GetAsync(t => t.Id == userId);
+
+            // Set the ticket details on the TicketDetailModel
+            var ticketDetailModel = (TicketDetailModel)DataContext;
+            ticketDetailModel.Tickets = new ObservableCollection<TicketModel>((IEnumerable<TicketModel>)tickets);
+        }
+
 
         private void ShowDefaultView()
         {
