@@ -34,10 +34,7 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.ViewModels
         [ObservableProperty]
         private  ObservableCollection<TicketModel> tickets = TicketsViewService.Tickets();
 
-      
 
-       
-        
 
     }
   

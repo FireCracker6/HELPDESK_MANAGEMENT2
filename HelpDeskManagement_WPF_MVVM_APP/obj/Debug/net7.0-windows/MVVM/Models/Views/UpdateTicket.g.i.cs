@@ -9,7 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.ViewModels;
 using HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views;
 using System;
 using System.Diagnostics;
@@ -54,8 +53,7 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/HelpDeskManagement_WPF_MVVM_APP;V1.0.0.0;component/mvvm/models/views/updateticke" +
-                    "t.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/HelpDeskManagement_WPF_MVVM_APP;component/mvvm/models/views/updateticket.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\MVVM\Models\Views\UpdateTicket.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
