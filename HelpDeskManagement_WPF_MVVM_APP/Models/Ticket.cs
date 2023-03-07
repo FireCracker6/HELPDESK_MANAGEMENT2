@@ -19,7 +19,9 @@ internal class Ticket
     public DateTime? LastUpdatedAt { get; set; }
     public DateTime? ClosedAt { get; set; }
     // public User User { get; set; }
-    public ICollection<TicketComments> Comments { get; set; } = new List<TicketComments>();
+   public ICollection<TicketComments> Comments { get; set; } = new List<TicketComments>();
+
+
 
 }
 //internal class User
@@ -40,6 +42,6 @@ internal class Comments
 
     public string CommentsText { get; set; } = null!;
     public DateTime? CreatedAt { get; set; } = null;
-    
+
 
 }

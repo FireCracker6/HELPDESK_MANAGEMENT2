@@ -71,10 +71,8 @@ internal class TicketsEntity
         _context = context;
     }
 
-    // ot
-
     public int Id { get; set; }
-    public Guid UsersId { get; set; } 
+    public Guid UsersId { get; set; }
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public string TicketCategory { get; set; } = null!;
@@ -83,48 +81,40 @@ internal class TicketsEntity
     public DateTime? ClosedAt { get; set; }
 
     public virtual UsersEntity Users { get; set; } = null!;
-    public virtual TicketComments Comments { get; set; } = null!;
+
+    public virtual ICollection<TicketComments> Comments { get; set; } = new List<TicketComments>();
 
     public static implicit operator Ticket(TicketsEntity entity)
     {
-
         Debug.WriteLine("Converting TicketsEntity to Ticket: " + entity.UsersId);
         var context = entity._context;
-        
+
         var ticket = new Ticket
         {
             Id = entity.Id,
-            UsersId = entity.UsersId, // convert the UsersId property to the UserId property
+            UsersId = entity.UsersId,
             Email = entity.Users.Email,
             FirstName = entity.Users.FirstName,
             LastName = entity.Users.LastName,
             Title = entity.Title,
             Description = entity.Description,
             TicketCategory = entity.TicketCategory,
-         
             CreatedAt = entity.CreatedAt,
         };
 
-        var comments = context.Comments.Where(c => c.TicketId == entity.Id).ToList();
-
-
-        foreach (var comment in comments)
+        ticket.Comments = entity.Comments.Select(tc => new TicketComments
         {
-            ticket.Comments.Add(new TicketComments
-            {
-                Id = comment.Id,
-                TicketId = comment.TicketId,
-                CommentsText = comment.CommentsText,
-                CreatedAt = comment.CreatedAt,
-            });
-        }
+            Id = tc.Id,
+            TicketId = tc.TicketId,
+            CommentsText = tc.CommentsText,
+            CreatedAt = tc.CreatedAt,
+            TicketsId = tc.TicketsId
+        }).ToList();
 
         return ticket;
     }
-
-
-
 }
+
 
 internal class TicketComments
 {
@@ -132,7 +122,9 @@ internal class TicketComments
     public int TicketId { get; set; }
     public string CommentsText { get; set; } = null!;
     public DateTime? CreatedAt { get; set; }
-    
+
+    public int TicketsId { get; set; } // add foreign key property
+
     public TicketsEntity Tickets { get; set; } = null!;
 }
 

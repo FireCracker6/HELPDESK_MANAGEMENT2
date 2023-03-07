@@ -29,5 +29,13 @@ internal class DataContext : DbContext
     public DbSet<TicketPriorities> Priorities { get; set; } = null!;
     public DbSet<TicketStatuses> Statuses { get; set; } = null!;
     public DbSet<TicketComments> TicketComments { get; set; } = null!;
-   
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<TicketsEntity>()
+    //        .HasOne(t => t.Comments)
+    //        .WithOne(c => c.Tickets)
+    //        .HasForeignKey<TicketComments>(c => c.TicketsId);
+    //}
+
+
 }

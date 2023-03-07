@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,9 +32,17 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
         }
         private async Task ShowAllUsers()
         {
-            var userService = new UserService(); 
-            var users = await userService.GetAllAsync();
-            myDataGrid.ItemsSource = users;
+            try
+            {
+                var userService = new UserService();
+                var users = await userService.GetAllAsync();
+                myDataGrid.ItemsSource = users;
+                Debug.WriteLine(users.ToList<UsersEntity>().Count);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error in ShowAllUsers: " + ex.Message);
+            }
         }
         private async Task ShowAllTickets()
         {
