@@ -11,13 +11,6 @@ using HelpDeskManagement_WPF_MVVM_APP.MVVM.Models;
 using HelpDeskManagement_WPF_MVVM_APP.Services;
 
 
-
-
-
-
-
-
-
 namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.ViewModels
 {
 
@@ -29,7 +22,10 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.ViewModels
         [ObservableProperty]
         private string pageTitle = "Tickets View";
 
-       
+
+      
+
+
 
         [ObservableProperty]
         private  ObservableCollection<TicketModel> tickets = TicketsViewService.Tickets();

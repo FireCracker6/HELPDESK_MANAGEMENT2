@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using HelpDeskManagement_WPF_MVVM_APP.Contexts;
 using HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.ViewModels;
 using HelpDeskManagement_WPF_MVVM_APP.Services;
 
@@ -25,25 +25,24 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
     /// </summary>
     public partial class TicketDetails : UserControl
     {
-     
+
         private readonly UserService _userService;
         private readonly Guid _userId;
-        public string PageTitle2 { get; set; }
+
 
         public TicketDetails(Guid userId)
         {
             InitializeComponent();
             TicketDetailModel ticketDetailModel = new TicketDetailModel();
+            DataContext = new TicketDetailModel(); // or pass the view model as a parameter to the constructor
             _userService = new UserService();
-            PageTitle2 = "Ticket Details";
+
             _userId = userId;
             ticketDetailModel.SelectedId = userId;
             ShowUser(userId);
 
-            
 
-            // Create and configure the DataGrid control
-          
+
 
         }
 
@@ -58,35 +57,31 @@ namespace HelpDeskManagement_WPF_MVVM_APP.MVVM.Models.Views
 
         private async Task ShowUser(Guid userId)
         {
-
             var item = await _userService.GetAsync(x => x.Id == userId);
             if (item != null)
             {
                 Debug.WriteLine(item.FirstName);
                 Debug.WriteLine("userId = " + userId);
-               
+
                 // Set the ItemsSource property of the DataGrid control
                 var ticketService = new TicketService();
-
                 var tickets = await ticketService.GetAsync(userId);
-                var item2 = tickets.FirstOrDefault();
+
+                Debug.WriteLine($"Number of tickets retrieved for user with id {userId}: {tickets}");
+
                 _myDetailsDataGrid.ItemsSource = tickets;
-                Debug.WriteLine(item2.Title);
-               
-            
-               
             }
             else
             {
                 // Handle the case where the user with the specified ID was not found.
                 // This could mean showing an error message or redirecting the user to a different page.
             }
-
         }
+
+
 
 
 
     }
 
 }
-

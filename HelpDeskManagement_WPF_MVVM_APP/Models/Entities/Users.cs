@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using HelpDeskManagement_WPF_MVVM_APP.Contexts;
 using HelpDeskManagement_WPF_MVVM_APP.Models;
+using Microsoft.EntityFrameworkCore;
 
 internal class UserRoles
 {
@@ -10,6 +14,7 @@ internal class UserRoles
 }
 internal class UsersEntity
 {
+
     public Guid Id { get; set; } = Guid.NewGuid();
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
@@ -19,8 +24,11 @@ internal class UsersEntity
 
     public virtual ICollection<TicketsEntity> Tickets { get; set; } = new HashSet<TicketsEntity>();
 
+    public DbContext Context { get; set; } // Add this line
+
     public static implicit operator UsersEntity(Ticket ticket)
     {
+
         return new UsersEntity
         {
             Id = ticket.UserId,
@@ -34,6 +42,7 @@ internal class UsersEntity
 
     public static implicit operator Ticket(UsersEntity usersEntity)
     {
+
         TicketsEntity ticketEntity = null!;
         return new Ticket
         {
@@ -55,6 +64,15 @@ internal class UsersEntity
 
 internal class TicketsEntity
 {
+    private readonly DataContext _context;
+
+    public TicketsEntity(DataContext context)
+    {
+        _context = context;
+    }
+
+    // ot
+
     public int Id { get; set; }
     public Guid UsersId { get; set; } 
     public string Title { get; set; } = null!;
@@ -68,9 +86,14 @@ internal class TicketsEntity
 
     public static implicit operator Ticket(TicketsEntity entity)
     {
-        return new Ticket
+
+        Debug.WriteLine("Converting TicketsEntity to Ticket: " + entity.UsersId);
+        var context = entity._context;
+        
+        var ticket = new Ticket
         {
-            UserId = entity.Users.Id,
+            Id = entity.Id,
+            UsersId = entity.UsersId, // convert the UsersId property to the UserId property
             Email = entity.Users.Email,
             FirstName = entity.Users.FirstName,
             LastName = entity.Users.LastName,
@@ -78,21 +101,27 @@ internal class TicketsEntity
             Description = entity.Description,
             TicketCategory = entity.TicketCategory,
             CreatedAt = entity.CreatedAt,
-
         };
-    }
 
-    public static implicit operator TicketsEntity(UsersEntity entity)
-    {
-        return new TicketsEntity
+        var comments = context.Comments.Where(c => c.TicketId == entity.Id).ToList();
+
+
+        foreach (var comment in comments)
         {
-            UsersId = entity.Id,
-            
-    
-            
+            ticket.Comments.Add(new TicketComments
+            {
+                Id = comment.Id,
+                TicketId = comment.TicketId,
+                CommentsText = comment.CommentsText,
+                CreatedAt = comment.CreatedAt,
+            });
+        }
 
-        };
+        return ticket;
     }
+
+
+
 }
 
 internal class TicketComments
