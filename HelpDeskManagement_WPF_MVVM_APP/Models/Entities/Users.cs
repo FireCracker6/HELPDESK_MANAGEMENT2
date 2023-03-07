@@ -83,6 +83,7 @@ internal class TicketsEntity
     public DateTime? ClosedAt { get; set; }
 
     public virtual UsersEntity Users { get; set; } = null!;
+    public virtual TicketComments Comments { get; set; } = null!;
 
     public static implicit operator Ticket(TicketsEntity entity)
     {
@@ -100,6 +101,7 @@ internal class TicketsEntity
             Title = entity.Title,
             Description = entity.Description,
             TicketCategory = entity.TicketCategory,
+         
             CreatedAt = entity.CreatedAt,
         };
 

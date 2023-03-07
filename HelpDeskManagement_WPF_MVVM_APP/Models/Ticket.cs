@@ -18,16 +18,28 @@ internal class Ticket
     public DateTime? CreatedAt { get; set; }
     public DateTime? LastUpdatedAt { get; set; }
     public DateTime? ClosedAt { get; set; }
-    public User User { get; set; }
+    // public User User { get; set; }
     public ICollection<TicketComments> Comments { get; set; } = new List<TicketComments>();
 
 }
-internal class User
+//internal class User
+//{
+//    public Guid Id { get; set; }
+//    public string FirstName { get; set; } = null!;
+//    public string LastName { get; set; } = null!;
+//    public string Email { get; set; } = null!;
+//    public string? PhoneNumber { get; set; } = null!;
+//    // add other User properties you need
+//}
+
+internal class Comments
 {
-    public Guid Id { get; set; }
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string? PhoneNumber { get; set; } = null!;
-    // add other User properties you need
+    public int Id { get; set; }
+    public int TicketId { get; set; }
+    public int TicketsId { get; set; }
+
+    public string CommentsText { get; set; } = null!;
+    public DateTime? CreatedAt { get; set; } = null;
+    
+
 }

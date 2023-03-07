@@ -33,6 +33,7 @@
                 <DataGridTextColumn Header="Owner Name" Binding="{Binding FirstName}"  />
                 <DataGridTextColumn Header="Owner SurName" Binding="{Binding LastName}"  />
                 <DataGridTextColumn Header="Owner Email" Binding="{Binding Email}"  />
+                <DataGridTextColumn Header="Owner Email" Binding="{Binding CommentsText}"  />
                 <!--<DataGridTextColumn Header="Status" Binding="{Binding Email}" />-->
             </DataGrid.Columns>
         </DataGrid>
